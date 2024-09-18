@@ -44,11 +44,10 @@ architecture behavior of circuito_tb is
       clk     : in  std_logic;
       rst     : in  std_logic;
       exec    : in  std_logic;
-      instr   : in  std_logic_vector(1 downto 0);
-      data_in : in  std_logic_vector(7 downto 0);
-      reg1    : out std_logic_vector(7 downto 0);
-      res     : out std_logic_vector(7 downto 0)
-      );
+      instr   : in  std_logic_vector(2 downto 0);
+      data_in : in  std_logic_vector(9 downto 0);
+      res     : out std_logic_vector(15 downto 0)
+    );
   end component;
 
 
@@ -56,12 +55,11 @@ architecture behavior of circuito_tb is
   signal clk     : std_logic                    := '0';
   signal rst     : std_logic                    := '0';
   signal exec    : std_logic                    := '0';
-  signal instr   : std_logic_vector(1 downto 0) := (others => '0');
-  signal data_in : std_logic_vector(7 downto 0) := (others => '0');
+  signal instr   : std_logic_vector(2 downto 0) := (others => '0');
+  signal data_in : std_logic_vector(9 downto 0) := (others => '0');
 
   --Outputs
-  signal res  : std_logic_vector(7 downto 0);
-  signal reg1 : std_logic_vector(7 downto 0);
+  signal res  : std_logic_vector(15 downto 0);
 
   -- Clock period definitions
   constant clk_period : time := 10 ns;
@@ -75,9 +73,8 @@ begin
     exec    => exec,
     instr   => instr,
     data_in => data_in,
-    reg1    => reg1,
     res     => res
-    );
+  );
 
   -- Clock definition
   clk <= not clk after clk_period/2;
@@ -95,16 +92,17 @@ begin
     rst <= '1' after 20 ns,
            '0' after 40 ns;
 
-    data_in <= X"67" after 40 ns,
-               X"12" after 200 ns,
-               X"C3" after 360 ns;
+    data_in <= X"167" after 40 ns,
+               X"212" after 100 ns,
+               X"0C3" after 360 ns;
 
-    instr <= "11" after 40 ns,          -- load
-             "00" after 120 ns,         -- add
-             "11" after 200 ns,         -- load
-             "01" after 280 ns,         -- sub
-             "11" after 360 ns,         -- load
-             "10" after 440 ns;         -- and
+    instr <= "101" after 40 ns,          -- load1
+             "110" after 120 ns,         -- load2
+             "000" after 200 ns,         -- add
+             "001" after 280 ns,         -- sub
+             "010" after 360 ns,         -- mul
+             "011" after 440 ns,         -- logic
+             "100" after 520 ns;         -- shift
 
     exec <= '1' after 40 ns,
             '0' after 80 ns,
@@ -117,7 +115,9 @@ begin
             '1' after 360 ns,
             '0' after 400 ns,
             '1' after 440 ns,
-            '0' after 480 ns;
+            '0' after 480 ns,
+            '1' after 520 ns,
+            '0' after 560 ns;
     wait;
   end process;
 

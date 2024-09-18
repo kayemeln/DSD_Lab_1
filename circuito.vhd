@@ -13,7 +13,7 @@ entity circuito is
     instr			: in  std_logic_vector(2 downto 0);
     data_in 		: in  std_logic_vector(9 downto 0);
 	--------------------------------------------------
-    res				: out std_logic_vector(9 downto 0)
+    res				: out std_logic_vector(15 downto 0)
     );
 end circuito;
 
@@ -36,7 +36,7 @@ architecture Behavioral of circuito is
       r1E, r2E				: in  std_logic;
       clk, rst				: in  std_logic;
 	  -----------------------------------------------------
-      res					: out std_logic_vector (9 downto 0)
+      res					: out std_logic_vector (15 downto 0)
       );
   end component;
   signal enables 	: std_logic_vector(1 downto 0);
@@ -60,8 +60,8 @@ begin
       rst		=> rst,
       r1E		=> enables(1),
       r2E		=> enables(0),
-      mux1S	=> sels(0),
-      mux2S	=> sels(1),
+      mux1S	=> sels(1),
+      mux2S	=> sels(0),
       aluS	=> aluS,
       clk		=> clk,
       res		=> res
