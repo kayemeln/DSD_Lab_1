@@ -24,11 +24,11 @@ begin
 	state_reg : process (clk)
 	begin
 		if clk'event and clk = '1' then
-		if rst = '1' then
-			currstate <= s_initial;
-		else
-			currstate <= nextstate;
-		end if;
+			if rst = '1' then
+				currstate <= s_initial;
+			else
+				currstate <= nextstate;
+			end if;
 		end if;
 	end process;
 
@@ -36,6 +36,9 @@ begin
 	begin  --  process
 
 		nextstate <= currstate;  -- by default, does not change the state.
+		selectors		<= "00";
+		enables			<= "00";
+		alu_selector	<= "000";
 
 		case currstate is
 			when s_initial =>

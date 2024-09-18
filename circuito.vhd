@@ -52,17 +52,18 @@ begin
     instr     		=> instr,
     enables   		=> enables,
     selectors 		=> sels,
-	aluS_selector 	=> aluS
-    );
+	  aluS_selector => aluS
+  );
+
   inst_datapath : datapath port map(
-    data_in	=> data_in,
-    rst		=> rst,
-    r1E		=> enables(1),
-    r2E		=> enables(0),
-    mux1S	=> sels(0),
-    mux2S	=> sels(1),
-	aluS	=> aluS,
-    clk		=> clk,
-    res		=> res
-    );
+      data_in	=> data_in,
+      rst		=> rst,
+      r1E		=> enables(1),
+      r2E		=> enables(0),
+      mux1S	=> sels(0),
+      mux2S	=> sels(1),
+      aluS	=> aluS,
+      clk		=> clk,
+      res		=> res
+  );
 end Behavioral;
