@@ -22,7 +22,6 @@ architecture behavioral of datapath is
 	signal res_mul_sg: signed(25 downto 0);
 
 	signal ov_d: std_logic := '0';
-	signal mux2S_q: std_logic  := '0';
 	-- the next signals initialization is only considered for simulation
 	signal register1 : std_logic_vector (9 downto 0) := (others => '0');
 	signal register2 : std_logic_vector (15 downto 0) := (others => '0');
@@ -59,7 +58,7 @@ begin
 			   else res_alu;
 	
 	-- multiplexer 2
-	res_mux2 <= register1_padding & register1 when mux2S_q = '0'
+	res_mux2 <= register1_padding & register1 when mux2S = '0'
 			   else register2;
 	register1_padding <= (others => register1(9));
 
@@ -96,18 +95,6 @@ begin
 				register2 <= X"0000";
 			elsif r2E = '1' then
 				register2 <= res_mux1;
-			end if;
-		end if;
-	end process;
-
-	-- register Mux 2
-	process (clk)
-	begin
-		if clk'event and clk = '1' then
-			if rst = '1' then
-				mux2S_q <= '0';
-			elsif r2E = '1' or r1E = '1' then
-				mux2S_q <= mux2S;
 			end if;
 		end if;
 	end process;

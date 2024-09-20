@@ -43,6 +43,7 @@ architecture behavior of circuito_tb is
     port(
       clk     : in  std_logic;
       rst     : in  std_logic;
+      mux2S   : in  std_logic;
       exec    : in  std_logic;
       instr   : in  std_logic_vector(2 downto 0);
       data_in : in  std_logic_vector(9 downto 0);
@@ -51,13 +52,13 @@ architecture behavior of circuito_tb is
     );
   end component;
 
-
   --Inputs
   signal clk     : std_logic                    := '0';
   signal rst     : std_logic                    := '0';
   signal exec    : std_logic                    := '0';
   signal instr   : std_logic_vector(2 downto 0) := (others => '0');
   signal data_in : std_logic_vector(9 downto 0) := (others => '0');
+  signal mux2S   : std_logic := '0';
 
   --Outputs
   signal ov   : std_logic;
@@ -73,6 +74,7 @@ begin
     clk     => clk,
     rst     => rst,
     exec    => exec,
+    mux2S   => mux2S,
     instr   => instr,
     data_in => data_in,
     ov      => ov,
@@ -99,13 +101,17 @@ begin
                "1100101011" after 100 ns,
                "0110111001" after 360 ns;
 
-    instr <= "101" after 40 ns,          -- load1
-             "110" after 120 ns,         -- load2
+    mux2S <= '1' after 40 ns,
+             '0' after 100 ns,
+             '1' after 360 ns;
+
+    instr <= "110" after 40 ns,          -- load1
+             "111" after 120 ns,         -- load2
              "000" after 200 ns,         -- add
              "001" after 280 ns,         -- sub
              "010" after 360 ns,         -- mul
-             "011" after 440 ns,         -- logic
-             "100" after 520 ns;         -- shift
+             "100" after 440 ns,         -- logic
+             "101" after 520 ns;         -- shift
 
     exec <= '1' after 40 ns,
             '0' after 80 ns,

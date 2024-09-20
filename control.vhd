@@ -11,8 +11,8 @@ entity control is
 	clk, rst, exec	: in  std_logic;
 	instr         	: in  std_logic_vector (2 downto 0);
 	-----------------------------------------------------
+	selectors	: out  std_logic;
 	enables       	: out std_logic_vector (1 downto 0);
-	selectors     	: out std_logic_vector (1 downto 0);
 	alu_selector	: out std_logic_vector (2 downto 0));
 end control;
 
@@ -36,7 +36,7 @@ begin
 	begin  --  process
 
 		nextstate <= currstate;  -- by default, does not change the state.
-		selectors		<= "00";
+		selectors		<= '0';
 		enables			<= "00";
 		alu_selector	<= "000";
 
@@ -49,59 +49,59 @@ begin
 						nextstate <= s_sub;
 					elsif instr = "010" then
 						nextstate <= s_mul;
-					elsif instr = "011" then
-						nextstate <= s_logic;
 					elsif instr = "100" then
-						nextstate <= s_shift;
+						nextstate <= s_logic;
 					elsif instr = "101" then
-						nextstate <= s_load_1;
+						nextstate <= s_shift;
 					elsif instr = "110" then
+						nextstate <= s_load_1;
+					elsif instr = "111" then
 						nextstate <= s_load_2;
 					end if;
 				end if;
-				selectors		<= "00";
+				selectors		<= '0';
 				enables			<= "00";
 				alu_selector	<= "000";
 
 			when s_add =>
 				nextstate		<= s_end;
-				selectors		<= "11";
+				selectors		<= '1';
 				enables			<= "01";
 				alu_selector	<= "001";
 
 			when s_sub =>
 				nextstate		<= s_end;
-				selectors		<= "11";
+				selectors		<= '1';
 				enables			<= "01";
 				alu_selector	<= "010";
 
 			when s_mul =>
 				nextstate		<= s_end;
-				selectors		<= "11";
+				selectors		<= '1';
 				enables			<= "01";
 				alu_selector	<= "011";
 			
 			when s_logic =>
 				nextstate		<= s_end;
-				selectors		<= "11";
+				selectors		<= '1';
 				enables			<= "01";
 				alu_selector	<= "100";
 				
 			when s_shift =>
 				nextstate		<= s_end;
-				selectors		<= "11";
+				selectors		<= '1';
 				enables			<= "01";
 				alu_selector	<= "101";
 			
 			when s_load_1 =>
 				nextstate		<= s_end;
-				selectors		<= "00";
+				selectors		<= '1';
 				enables			<= "10";
 				alu_selector	<= "000";
 				
 			when s_load_2 =>
 				nextstate		<= s_end;
-				selectors		<= "10";
+				selectors		<= '0';
 				enables			<= "01";
 				alu_selector	<= "000";
 
@@ -109,11 +109,10 @@ begin
 				if exec = '0' then
 					nextstate	<= s_initial;
 				end if;
-				selectors		<= "00";
+				selectors		<= '0';
 				enables			<= "00";
 				alu_selector	<= "000";
 		end case;
 	end process;
 
 end Behavioral;
-
