@@ -101,7 +101,7 @@ begin
 				
 			when s_load_2 =>
 				nextstate		<= s_end;
-				selectors		<= "01";
+				selectors		<= "00";
 				enables			<= "01";
 				alu_selector	<= "000";
 

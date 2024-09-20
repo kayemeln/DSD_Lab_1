@@ -25,13 +25,13 @@ architecture Behavioral of circuito is
 	  -----------------------------------------------------
       enables       	: out std_logic_vector (1 downto 0);
       selectors     	: out std_logic_vector (1 downto 0);
-	  aluS_selector		: out std_logic_vector (2 downto 0)
+	  alu_selector		: out std_logic_vector (2 downto 0)
       );
   end component;
   component datapath
     port(
       data_in				: in  std_logic_vector (9 downto 0);
-      aluS					: in  std_logic_vector (2 downto 0)
+      aluS					: in  std_logic_vector (2 downto 0);
 	  mux1S, mux2S			: in  std_logic;
       r1E, r2E				: in  std_logic;
       clk, rst				: in  std_logic;
@@ -52,7 +52,7 @@ begin
     instr     		=> instr,
     enables   		=> enables,
     selectors 		=> sels,
-	  aluS_selector => aluS
+	  alu_selector => aluS
   );
 
   inst_datapath : datapath port map(
@@ -60,8 +60,8 @@ begin
       rst		=> rst,
       r1E		=> enables(1),
       r2E		=> enables(0),
-      mux1S	=> sels(1),
-      mux2S	=> sels(0),
+      mux1S	=> sels(0),
+      mux2S	=> sels(1),
       aluS	=> aluS,
       clk		=> clk,
       res		=> res

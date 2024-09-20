@@ -92,9 +92,9 @@ begin
     rst <= '1' after 20 ns,
            '0' after 40 ns;
 
-    data_in <= X"167" after 40 ns,
-               X"212" after 100 ns,
-               X"0C3" after 360 ns;
+    data_in <= "1010110010" after 40 ns,
+               "1100101011" after 100 ns,
+               "0110111001" after 360 ns;
 
     instr <= "101" after 40 ns,          -- load1
              "110" after 120 ns,         -- load2
