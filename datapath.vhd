@@ -42,9 +42,10 @@ begin
 	-- Checking overflow (only for add/sub/mul)
 	ov_d <= (register1(9) xnor register2(15)) and (register2(15) xor res_add(15)) when aluS = "001" else
 				 (register1(9) xor register2(15)) and (register2(15) xor res_sub(15)) when aluS = "010" else
-				 (res_mul(25) or res_mul(24) or res_mul(23) or res_mul(22) or res_mul(21) or res_mul(20) or res_mul(19) or
-				 res_mul(18) or res_mul(17) or res_mul(16)) and (res_mul(25) and res_mul(24) and res_mul(23) and res_mul(22)
-				 and res_mul(21) and res_mul(20) and res_mul(19) and res_mul(18) and res_mul(17) and res_mul(16)) when aluS = "011" else
+				 ((res_mul(25) or res_mul(24) or res_mul(23) or res_mul(22) or res_mul(21) or res_mul(20) or res_mul(19) or
+				 res_mul(18) or res_mul(17) or res_mul(16)) and (not (res_mul(25) and res_mul(24) and res_mul(23) and res_mul(22)
+				 and res_mul(21) and res_mul(20) and res_mul(19) and res_mul(18) and res_mul(17) and res_mul(16)))) or
+				 (register1(9) xor register2(15) xor res_mul(15)) when aluS = "011" else
 				 '0';
 	
 	-- logic unit
