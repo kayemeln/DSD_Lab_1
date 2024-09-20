@@ -46,6 +46,7 @@ architecture behavior of circuito_tb is
       exec    : in  std_logic;
       instr   : in  std_logic_vector(2 downto 0);
       data_in : in  std_logic_vector(9 downto 0);
+      ov			: out std_logic;
       res     : out std_logic_vector(15 downto 0)
     );
   end component;
@@ -59,6 +60,7 @@ architecture behavior of circuito_tb is
   signal data_in : std_logic_vector(9 downto 0) := (others => '0');
 
   --Outputs
+  signal ov   : std_logic;
   signal res  : std_logic_vector(15 downto 0);
 
   -- Clock period definitions
@@ -73,6 +75,7 @@ begin
     exec    => exec,
     instr   => instr,
     data_in => data_in,
+    ov      => ov,
     res     => res
   );
 

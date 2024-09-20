@@ -84,12 +84,15 @@ architecture Behavioral of fpga_basicIO is
       exec    : in  std_logic;
       instr   : in  std_logic_vector(2 downto 0);
       data_in : in  std_logic_vector(9 downto 0);
+      ov      : out std_logic;
       res     : out std_logic_vector(15 downto 0)
       );
   end component;
 
+  signal ov: std_logic;
+
 begin
-  led <= sw_reg;
+  led <= sw_reg(15 downto 11) & ov & sw_reg(9 downto 0);
 
   dact <= "1111";
 
@@ -111,6 +114,7 @@ begin
     exec    => btnRreg,
     instr   => sw_reg(15 downto 13),
     data_in => sw_reg(9 downto 0),
+    ov   => ov,
     res => res);
 
   -- Debounces btn signals

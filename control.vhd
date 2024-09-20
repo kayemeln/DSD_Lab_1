@@ -95,13 +95,13 @@ begin
 			
 			when s_load_1 =>
 				nextstate		<= s_end;
-				selectors		<= "10";
+				selectors		<= "00";
 				enables			<= "10";
 				alu_selector	<= "000";
 				
 			when s_load_2 =>
 				nextstate		<= s_end;
-				selectors		<= "00";
+				selectors		<= "10";
 				enables			<= "01";
 				alu_selector	<= "000";
 
