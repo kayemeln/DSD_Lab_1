@@ -82,6 +82,7 @@ architecture Behavioral of fpga_basicIO is
       clk     : in  std_logic;
       rst     : in  std_logic;
       exec    : in  std_logic;
+      mux2S   : in std_logic;
       instr   : in  std_logic_vector(2 downto 0);
       data_in : in  std_logic_vector(9 downto 0);
       ov      : out std_logic;
@@ -89,7 +90,8 @@ architecture Behavioral of fpga_basicIO is
       );
   end component;
 
-  signal ov: std_logic;
+  signal ov, exec: std_logic;
+  signal instr: std_logic_vector(2 downto 0);
 
 begin
   led <= sw_reg(15 downto 11) & ov & sw_reg(9 downto 0);
@@ -110,12 +112,21 @@ begin
 
   inst_circuito : circuito port map(
     clk     => clk,
-    rst     => btnUreg,
-    exec    => btnRreg,
-    instr   => sw_reg(15 downto 13),
+    rst     => btnCreg,
+    exec    => exec,
+    instr   => instr,
+    mux2S   => sw_reg(14),
     data_in => sw_reg(9 downto 0),
     ov   => ov,
     res => res);
+
+  exec <= btnUreg or btnRreg or btnDreg or btnLreg;
+  instr(0) <= sw_reg(15);
+  instr(2 downto 1) <= "00" when btnUreg = '1' else
+                       "01" when btnRreg = '1' else
+                       "10" when btnDreg = '1' else 
+                       "11" when btnLreg = '1' else
+                       "00";
 
   -- Debounces btn signals
   btn <= btnC & btnU & btnL & btnR & btnD;

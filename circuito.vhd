@@ -10,6 +10,7 @@ entity circuito is
   port (
 	-- rst - center buttom
     clk, rst, exec	: in  std_logic;
+    mux2S   : in std_logic;
     instr			: in  std_logic_vector(2 downto 0);
     data_in 		: in  std_logic_vector(9 downto 0);
 	--------------------------------------------------
@@ -25,7 +26,7 @@ architecture Behavioral of circuito is
       instr         	: in  std_logic_vector (2 downto 0);
 	  -----------------------------------------------------
       enables       	: out std_logic_vector (1 downto 0);
-      selectors     	: out std_logic_vector (1 downto 0);
+      selectors     	: out std_logic;
 	  alu_selector		: out std_logic_vector (2 downto 0)
       );
   end component;
@@ -42,7 +43,7 @@ architecture Behavioral of circuito is
       );
   end component;
   signal enables 	: std_logic_vector(1 downto 0);
-  signal sels    	: std_logic_vector(1 downto 0);
+  signal sels    	: std_logic;
   signal aluS		: std_logic_vector(2 downto 0);
 
 
@@ -62,8 +63,8 @@ begin
       rst		=> rst,
       r1E		=> enables(1),
       r2E		=> enables(0),
-      mux1S	=> sels(0),
-      mux2S	=> sels(1),
+      mux1S	=> sels,
+      mux2S	=> mux2S,
       aluS	=> aluS,
       clk		=> clk,
       ov    => ov,
